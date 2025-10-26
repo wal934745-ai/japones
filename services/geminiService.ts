@@ -80,13 +80,18 @@ export const generateLesson = async (word: string): Promise<{ lesson: string; pr
         throw new Error('No se pudo encontrar el separador de prompts en la respuesta de la IA. Respuesta: ' + textResponse);
     }
 
-    const lesson = parts[0].trim();
-    const promptsText = parts[1].trim();
-    const prompts = promptsText.split('\n')
-        .map(line => line.replace(/^PROMPT:\s*/, '').trim())
-        .filter(line => line.length > 0);
+const lesson = parts[0].trim();
+const promptsText = parts[1].trim();
 
-    const sources: GroundingChunk[] = [];
+// 1. Separamos el texto de los prompts en un array
+const promptsArray = promptsText.split('\n');
 
-    return { lesson, prompts, sources };
-};
+// 2. Limpiamos cada línea del array
+const cleanedPrompts = promptsArray
+    .map(line => line.replace(/^PROMPT:\s*/, '').trim())
+    .filter(line => line.length > 0);
+
+const sources: GroundingChunk[] = [];
+
+// 3. Devolvemos todo junto y corregido
+return { lesson, prompts: cleanedPrompts, sources };
