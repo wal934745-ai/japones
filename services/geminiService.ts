@@ -89,15 +89,13 @@ export const generateLesson = async (word: string): Promise<{ lesson: string; pr
     const sources: GroundingChunk[] = [];
 
     return { lesson, prompts, sources };
-};
+
         .map(line => line.replace(/^PROMPT:\s*/, '').trim())
         .filter(line => line.length > 0);
 
     const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-
     return { lesson, prompts, sources };
 };
-
 /**
  * Generates an image using Imagen 4 based on a text prompt.
  */
