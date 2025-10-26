@@ -3,7 +3,7 @@ import { GroundingChunk } from '../types';
 
 // FIX: Initialize the GoogleGenAI client.
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(API_KEY);
+const ai = new GoogleGenerativeAI(API_KEY);
 
 /**
  * Generates a Japanese lesson for a given word using Gemini.
