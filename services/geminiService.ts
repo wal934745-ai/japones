@@ -10,7 +10,7 @@ const ai = new GoogleGenerativeAI(API_KEY);
  * It also provides image prompts and web sources for grounding.
  */
 export const generateLesson = async (word: string): Promise<{ lesson: string; prompts: string[]; sources: GroundingChunk[] }> => {
-    const model = 'gemini-2.5-flash';
+    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash' });
     const prompt = `
     Tu rol es "Nihongo Sensei AI". Tu misión es crear una lección educativa y visualmente estructurada sobre la palabra japonesa: "${word}".
 
@@ -69,15 +69,9 @@ export const generateLesson = async (word: string): Promise<{ lesson: string; pr
     3.  **Contexto Real 2:** Basado en la SEGUNDA frase de ejemplo, mostrando una situación diferente.
     `;
 
-    const response = await ai.models.generateContent({
-        model,
-        contents: prompt,
-        config: {
-            tools: [{ googleSearch: {} }],
-        },
-    });
-    
-    const textResponse = response.text;
+    const result = await model.generateContent(prompt);
+    const response = result.response;
+    const textResponse = response.text();
     
     const separator = '--- PROMPTS ---';
     const parts = textResponse.split(separator);
@@ -89,6 +83,13 @@ export const generateLesson = async (word: string): Promise<{ lesson: string; pr
     const lesson = parts[0].trim();
     const promptsText = parts[1].trim();
     const prompts = promptsText.split('\n')
+        .map(line => line.replace(/^PROMPT:\s*/, '').trim())
+        .filter(line => line.length > 0);
+
+    const sources: GroundingChunk[] = [];
+
+    return { lesson, prompts, sources };
+};
         .map(line => line.replace(/^PROMPT:\s*/, '').trim())
         .filter(line => line.length > 0);
 
