@@ -95,3 +95,4 @@ const sources: GroundingChunk[] = [];
 
 // 3. Devolvemos todo junto y corregido
 return { lesson, prompts: cleanedPrompts, sources };
+}
