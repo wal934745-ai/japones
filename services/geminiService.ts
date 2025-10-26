@@ -1,4 +1,4 @@
-import { GoogleGenAI, Modality } from '@google/genai';
+import { GoogleGenerativeAI, ModelParams } from '@google/generative-ai';
 import { GroundingChunk } from '../types';
 
 // FIX: Initialize the GoogleGenAI client.
