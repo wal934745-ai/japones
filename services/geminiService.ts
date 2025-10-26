@@ -2,7 +2,7 @@ import { GoogleGenAI, Modality } from '@google/genai';
 import { GroundingChunk } from '../types';
 
 // FIX: Initialize the GoogleGenAI client.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI(import.meta.env.VITE_API_KEY);
 
 /**
  * Generates a Japanese lesson for a given word using Gemini.
